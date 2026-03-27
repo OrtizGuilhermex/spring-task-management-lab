@@ -4,6 +4,8 @@ import com.ctw.spring_task_management_lab.dto.tarefa.TarefaRequestDto;
 import com.ctw.spring_task_management_lab.dto.tarefa.TarefaResponseDto;
 import com.ctw.spring_task_management_lab.service.TarefaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,31 +18,35 @@ public class TarefaController {
     private final TarefaService tarefaService;
 
     @PostMapping
-    public TarefaResponseDto cadastrarTarefa(
+    public ResponseEntity<TarefaResponseDto> cadastrarTarefa(
             @RequestBody TarefaRequestDto tarefaRequestDto,
             @RequestParam Long projetoId
     ){
-        return tarefaService.cadastrarTarefa(tarefaRequestDto,projetoId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(tarefaService.cadastrarTarefa(tarefaRequestDto,projetoId));
     }
 
     @GetMapping
-    public List<TarefaResponseDto> listarTarefas(){
-        return tarefaService.listarTarefas();
+    public ResponseEntity<List<TarefaResponseDto>> listarTarefas(){
+        return ResponseEntity.status(HttpStatus.OK)
+                        .body(tarefaService.listarTarefas());
     }
 
     @GetMapping("/titulo")
-    public List<TarefaResponseDto> listarTarefaPorIdTitulo(
+    public ResponseEntity<List<TarefaResponseDto>> listarTarefaPorIdTitulo(
             @RequestParam Long id,
             @RequestParam String titulo
     ){
-        return tarefaService.listarTarefaPorIdTitulo(id, titulo);
+        return ResponseEntity.status(HttpStatus.OK)
+                        .body(tarefaService.listarTarefaPorIdTitulo(id, titulo));
     }
 
     @GetMapping("/projeto/nome")
-    public List<TarefaResponseDto> listarTarefaPorIdProjetoNome(
+    public ResponseEntity<List<TarefaResponseDto>> listarTarefaPorIdProjetoNome(
             @RequestParam Long id,
             @RequestParam String nome
     ){
-        return tarefaService.listarTarefaPorIdProjetoNome(id, nome);
+        return ResponseEntity.status(HttpStatus.OK)
+                        .body(tarefaService.listarTarefaPorIdProjetoNome(id, nome));
     }
 }

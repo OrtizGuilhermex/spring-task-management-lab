@@ -4,6 +4,8 @@ import com.ctw.spring_task_management_lab.dto.projeto.ProjetoRequestDto;
 import com.ctw.spring_task_management_lab.dto.projeto.ProjetoResponseDto;
 import com.ctw.spring_task_management_lab.service.ProjetoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +18,17 @@ public class ProjetoController {
     private final ProjetoService projetoService;
 
     @PostMapping
-    public ProjetoResponseDto cadastrarProjeto(
+    public ResponseEntity<ProjetoResponseDto> cadastrarProjeto(
             @RequestBody ProjetoRequestDto projetoRequestDto
     ){
-        return projetoService.cadastrarprojeto(projetoRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(projetoService.cadastrarprojeto(projetoRequestDto));
     }
 
     @GetMapping
-    public List<ProjetoResponseDto> listarProjetos(){
-        return projetoService.listarProjetos();
+    public ResponseEntity<List<ProjetoResponseDto>> listarProjetos(){
+        return ResponseEntity.status(HttpStatus.OK)
+                        .body(projetoService.listarProjetos());
     }
 }
+
